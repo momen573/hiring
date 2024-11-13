@@ -38,6 +38,13 @@ A Symfony-based project for managing the hiring process, containerized with Dock
     npm install
     ```
 
-5. **Visit the application:**
+
+
+5. **Load Fixtures:**
+    Inside the Symfony container, run the following command to load your fixtures:
+    ```bash
+    docker-compose exec app bin/console doctrine:fixtures:load
+    ```
+6. **Visit the application:**
     The Symfony app will be accessible at `http://127.0.0.1:8000`.
 
