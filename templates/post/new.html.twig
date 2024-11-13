@@ -1,0 +1,63 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <h1 class="text-3xl font-semibold text-gray-800 mb-6">Create a New Post</h1>
+
+        {{ form_start(form) }}
+
+        <div class="mb-6">
+            <label for="{{ form.title.vars.id }}" class="block text-gray-700 font-medium">{{ form_label(form.title) }}</label>
+            <div class="mt-1">
+                {{ form_widget(form.title, {'attr': {'class': 'p-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.title) }}
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label for="{{ form.content.vars.id }}" class="block text-gray-700 font-medium">{{ form_label(form.content) }}</label>
+            <div class="mt-1">
+                {{ form_widget(form.content, {'attr': {'class': 'p-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.content) }}
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label for="{{ form.categories.vars.id }}" class="block text-gray-700 font-medium">{{ form_label(form.categories) }}</label>
+            <div id="categories-container" class="flex flex-wrap gap-3 mt-2">
+                {% for category in form.categories %}
+                    <div class="bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                        {{ form_widget(category) }}
+                        <span class="ml-2">{{ category.vars.label }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            {{ form_errors(form.categories) }}
+        </div>
+
+        <div class="mb-6">
+            <label for="{{ form.publishedAt.vars.id }}" class="block text-gray-700 font-medium">{{ form_label(form.publishedAt) }}</label>
+            <div class="mt-1">
+                {{ form_widget(form.publishedAt, {'attr': {'class': 'p-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.publishedAt) }}
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label for="{{ form.types.vars.id }}" class="block text-gray-700 font-medium">{{ form_label(form.types) }}</label>
+            <div class="mt-1">
+                {{ form_widget(form.types, {'attr': {'class': 'p-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                {{ form_errors(form.types) }}
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-full w-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Save Post
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

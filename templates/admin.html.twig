@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="{{ asset('build/styles.css') }}" rel="stylesheet">
+    <!-- Add this in your HTML head section -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+<body class="antialiased bg-gray-100">
+
+<div class="flex">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-800 text-white p-6 ">
+        <div class="flex items-center mb-8">
+            <span class="text-xl font-semibold">Admin Dashboard</span>
+        </div>
+        <nav class="flex-1">
+            <ul>
+                <li class="mb-4">
+                    <a href="{{ path('app_category_index') }}" class="text-white hover:text-blue-400">Categories</a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ path('app_post_type_index') }}" class="text-white hover:text-blue-400">Types</a>
+                </li>
+                <li class="mb-4">
+                    <a href="{{ path('post_index') }}" class="text-white hover:text-blue-400">Posts</a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="mb-4">
+                    <a href="{{ path('app_user_index') }}" class="text-white hover:text-blue-400">Users</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6 ">
+        <!-- Header -->
+        <div class="mb-6 flex justify-between items-center">
+            {% if app.user %}
+                <form action="{{ path('_logout_main') }}" method="post" style="display: inline;">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('logout') }}"/>
+
+                    <button type="submit">Logout</button>
+                </form>
+
+            {% else %}
+                <a href="{{ path('login') }}" class="text-indigo-600 font-medium hover:underline">Login</a>
+            {% endif %}
+        </div>
+
+        <!-- Main Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md flex-1 ">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

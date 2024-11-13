@@ -1,0 +1,56 @@
+{# templates/post/show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Post - {{ post.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6 space-y-8">
+        <!-- Post Title -->
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-6">{{ post.title }}</h1>
+
+        <!-- Post Published At -->
+        <p class="text-sm text-gray-600 mb-6">
+            <span class="font-semibold">Published At:</span>
+            {{ post.publishedAt|date('F d, Y \a\t h:i A') }}
+        </p>
+
+        <!-- Post Content -->
+        <div class="bg-white p-8 rounded-lg shadow-lg mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Content:</h2>
+            <p class="leading-relaxed">{{ post.content }}</p>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Categories:</h3>
+            <div class="flex flex-wrap gap-3">
+                {% for category in post.categories %}
+                    <span class="inline-block bg-indigo-100 text-indigo-800 text-sm font-semibold py-1 px-3 rounded-full border border-indigo-200">
+                        <a href="/cat/{{ category.id }}/{{  category.name }}" >  {{ category.name }}</a>
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Types Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Types:</h3>
+            <div class="flex flex-wrap gap-3">
+                {% for type in post.types %}
+                    <span class="inline-block bg-purple-100 text-purple-800 text-sm font-semibold py-1 px-3 rounded-full border border-purple-200">
+                        {{ type.name }}
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Author Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Author:</h3>
+            <p class="text-lg font-semibold text-gray-700">{{ post.user.username }}</p>
+        </div>
+
+
+    </div>
+{% endblock %}

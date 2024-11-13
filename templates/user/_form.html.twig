@@ -1,0 +1,23 @@
+{{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+<div>
+    {{ form_label(form.username) }}
+    {{ form_widget(form.username) }}
+    {{ form_errors(form.username) }}
+</div>
+
+<div>
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password) }}
+    {{ form_errors(form.password) }}
+</div>
+
+<div>
+    {{ form_label(form.roles) }}
+    {{ form_widget(form.roles) }}
+    {{ form_errors(form.roles) }}
+</div>
+
+<div>
+    <button type="submit" class="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700">Submit</button>
+</div>
+{{ form_end(form) }}

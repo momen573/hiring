@@ -1,0 +1,95 @@
+{% extends 'admin.html.twig' %}
+{% block body %}
+    <h1 class="text-3xl font-semibold text-gray-800 mb-6">Post Index</h1>
+
+    {# Display flash messages #}
+    <div class="mb-4">
+        {% for label, messages in app.flashes %}
+            <div class="mb-2 p-4 rounded-md
+                {% if label == 'success' %} bg-green-200 text-green-800 {% elseif label == 'info' %} bg-blue-200 text-blue-800 {% else %} bg-red-200 text-red-800 {% endif %}">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Create New Post Button -->
+    <div class="mb-6">
+        <a href="{{ path('post_new') }}" class="px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition duration-300">Create New Post</a>
+    </div>
+
+    <!-- Posts List -->
+    <ul class="space-y-4">
+        {% for post in posts %}
+            <li class="bg-white border border-gray-200 rounded-lg shadow-md p-4">
+                <a href="{{ path('post_show', {'id': post.id}) }}" class="text-xl font-semibold text-gray-800 hover:text-blue-600">{{ post.title }}</a>
+                <p class="text-gray-600 mt-2">{{ post.title }}</p>
+                {% if is_granted('ROLE_ADMIN') %}
+                <!-- Approval and Action Buttons -->
+                <form action="{{ path('approval_approve', {'id': post.id}) }}" method="post" class="inline-block">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button type="submit" onclick="submitFormWithMethod(this.form, 'PUT')" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">Approve</button>
+                </form>
+
+                <form action="{{ path('approval_reject', {'id': post.id}) }}" method="post" class="inline-block">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button type="submit" onclick="submitFormWithMethod(this.form, 'PUT')" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300">Reject</button>
+                </form>
+
+                <form action="{{ path('approval_draft', {'id': post.id}) }}" method="post" class="inline-block">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button type="submit" onclick="submitFormWithMethod(this.form, 'PUT')" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300">Save as Draft</button>
+                </form>
+
+                {# Log Button for Approval Status #}
+                <a href="{{ path('approval_log', {'postId': post.id}) }}" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition duration-300">View Approval Log</a>
+                {% endif %}
+                <script>
+                    function submitFormWithMethod(form, method) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = '_method';
+                        input.value = method;
+                        form.appendChild(input);
+                        form.submit();
+                    }
+                </script>
+            </li>
+        {% else %}
+            <li class="text-center py-4 text-gray-500">No posts found</li>
+        {% endfor %}
+    </ul>
+
+    <div class="flex justify-center items-center space-x-2 py-4">
+        {% if currentPage > 1 %}
+            <a href="{{ path('post_index', {'page': currentPage - 1}) }}"
+               class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Previous
+            </a>
+        {% endif %}
+
+        {# Display page numbers #}
+        {% for page in 1..lastPage %}
+            <a href="{{ path('post_index', {'page': page}) }}"
+               class="px-4 py-2 text-sm font-medium rounded-md
+                  {% if page == currentPage %}
+                      bg-blue-600 text-white
+                  {% else %}
+                      text-gray-700 bg-gray-200 hover:bg-gray-300
+                  {% endif %}
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                {{ page }}
+            </a>
+        {% endfor %}
+
+        {% if currentPage < lastPage %}
+            <a href="{{ path('post_index', {'page': currentPage + 1}) }}"
+               class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                Next
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

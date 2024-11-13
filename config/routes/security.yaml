@@ -1,0 +1,6 @@
+_logout_main:
+    resource: security.route_loader.logout
+    type: service
+logout:
+    path: /logout
+    controller: Symfony\Component\Security\Http\Authentication\LogoutHandlerInterface
